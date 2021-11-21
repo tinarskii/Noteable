@@ -2,6 +2,7 @@
 'use strict'
 
 const fs = require('fs')
+const path = require('path')
 var autoParse = require('auto-parse')
 
 class Noteable {
@@ -17,8 +18,9 @@ class Noteable {
     ) {
       settings.filePath = './note.noteable'
     }
-    if (!fs.existsSync(settings.filePath))
-      fs.writeFileSync(settings.filePath, '', 'utf8')
+    if (!fs.existsSync(path.resolve(settings.filePath))) {
+      fs.writeFileSync(path.resolve(settings.filePath), '', 'utf8')
+    }
     if (!settings.filePath.toString().endsWith('.noteable')) {
       throw new Error(`File path ${settings.filePath} is not a .noteable file`)
     }
@@ -35,11 +37,13 @@ class Noteable {
    */
   check() {
     let error = this.noteArray.findIndex((line) => {
-      return !line.startsWith('#') && !line.includes('=') && !(line.length <= 1)
+      return !line.startsWith('#') && !line.includes('=') && !(line.length <= 1) || line.split('=').length > 2
     })
     if (error !== -1) {
       throw new Error(`Line ${error + 1} is not valid`)
     }
+    let data = this.noteArray.filter((line) => line.length > 1)
+    fs.writeFileSync(this.filePath, data.join('\n'), 'utf8')
     return
   }
   /**
@@ -189,7 +193,7 @@ class Noteable {
   getAll() {
     return this.noteArray.map((note) => {
       return {
-        [note.split('=')[0]]: autoParse(note.split('=')[1])
+        [note.split('=')[0]]: this.autoParse ? autoParse(note.split('=')[1]) : note.split('=')[1],
       }
     })
   }

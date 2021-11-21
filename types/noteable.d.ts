@@ -1,5 +1,5 @@
 export type settings = {
-  filePath: fs.PathLike
+  filePath: string
   autoParse: boolean
   throwError: boolean
 }
