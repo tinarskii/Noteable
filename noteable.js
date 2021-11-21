@@ -7,21 +7,20 @@ var autoParse = require('auto-parse')
 class Noteable {
   /**
    * Initialize a new Noteable instance
-   * @param {fs.PathLike} filePath .noteable file path can be set to "default"
-   * @param {string} autoParse auto parse value
-   * @param {boolean} throwError throw error if has error or it may return undefined
+   * @typedef {import('./types/noteable').settings} settings
+   * @param {settings} settings .noteable file path can be set to "default"
    */
-  constructor(filePath, autoParse, throwError) {
-    if (!filePath || filePath.toString().toLowerCase() === 'default')
-      filePath = './note.noteable'
-    if (!fs.existsSync(filePath)) fs.writeFileSync(filePath, '', 'utf8')
-    if (!filePath.toString().endsWith('.noteable')) {
-      throw new Error(`File path ${filePath} is not a .noteable file`)
+  constructor(settings) {
+    if (!settings.filePath || settings.filePath.toString().toLowerCase() === 'default')
+      settings.filePath = './note.noteable'
+    if (!fs.existsSync(settings.filePath)) fs.writeFileSync(settings.filePath, '', 'utf8')
+    if (!settings.filePath.toString().endsWith('.noteable')) {
+      throw new Error(`File path ${settings.filePath} is not a .noteable file`)
     }
-    this.filePath = filePath
-    this.notes = fs.readFileSync(filePath, 'utf8')
-    this.autoParse = autoParse ?? true
-    this.throwError = throwError ?? false
+    this.filePath = settings.filePath
+    this.notes = fs.readFileSync(settings.filePath, 'utf8')
+    this.autoParse = settings.autoParse ?? true
+    this.throwError = settings.throwError ?? false
     this.noteArray = this.notes.split('\n')
     this.check()
   }
