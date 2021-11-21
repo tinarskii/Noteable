@@ -1,0 +1,11 @@
+{
+  "name": "noteable",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "auto-parse": "^1.8.0"
+  },
+  "author": "Tinnaphat \"Tin\" Somsang",
+  "license": "Apache-2.0"
+}
