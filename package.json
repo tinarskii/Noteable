@@ -4,7 +4,8 @@
   "description": "",
   "main": "noteable.js",
   "dependencies": {
-    "auto-parse": "^1.8.0"
+    "auto-parse": "^1.8.0",
+    "eslint": "^8.3.0"
   },
   "author": "Tinnaphat \"Tin\" Somsang",
   "license": "Apache-2.0"

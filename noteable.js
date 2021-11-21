@@ -11,9 +11,14 @@ class Noteable {
    * @param {settings} settings .noteable file path can be set to "default"
    */
   constructor(settings) {
-    if (!settings.filePath || settings.filePath.toString().toLowerCase() === 'default')
+    if (
+      !settings.filePath ||
+      settings.filePath.toString().toLowerCase() === 'default'
+    ) {
       settings.filePath = './note.noteable'
-    if (!fs.existsSync(settings.filePath)) fs.writeFileSync(settings.filePath, '', 'utf8')
+    }
+    if (!fs.existsSync(settings.filePath))
+      fs.writeFileSync(settings.filePath, '', 'utf8')
     if (!settings.filePath.toString().endsWith('.noteable')) {
       throw new Error(`File path ${settings.filePath} is not a .noteable file`)
     }
